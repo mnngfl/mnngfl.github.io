@@ -71,20 +71,20 @@ comments: true
 
 각 빗방울 객체를 나타내기 위해서는 (x, y) 좌표와 길이, 속도라는 특성을 나타내는 프로퍼티가 필요하다. 이를 생성자로 나타내보면 다음과 같다.
 
-```js
+{% highlight js %}
 function Rain(x, y, l, v) {
   this.x = x;
   this.y = y;
   this.l = l;
   this.v = v;
 }
-```
+{% endhighlight %}
 
 다음으로 빗방울의 행동을 정의하기 위해 `Rain` 생성자의 프로토타입을 수정하여 메서드를 추가해 보자. `Rain` 생성자 안쪽에서 `this.메서드명`으로 선언하지 않는 이유는, 해당 방식으로 객체 인스턴스를 생성할 경우 모든 인스턴스에 똑같은 메서드가 추가되기 때문이다. 이렇게 메서드를 포함하는 생성자로 인스턴스를 여러 개 생성하게 되면 똑같은 작업을 하는 메서드가 그만큼 여러 개 생성된다는 것이고 이로 인해 메모리 낭비로 이어지게 된다는 특징이 있다.
 
 따라서 아래와 같이 생성자의 프로토타입 객체에 메서드를 추가하는 방식을 통하여 모든 객체 인스턴스가 추가된 메서드를 사용할 수 있도록 하는 방식이 바람직하다.
 
-```js
+{% highlight js %}
 Rain.prototype = {
   // 캔버스에 빗방울 객체를 그리는 과정
   draw: function () {
@@ -107,7 +107,7 @@ Rain.prototype = {
     }
   },
 };
-```
+{% endhighlight %}
 
 <br>
 
@@ -116,9 +116,9 @@ Rain.prototype = {
 `Rain` 생성자의 `update` 메서드는 빗방울 객체의 y좌표를 이동시켜 아래로 떨어지는 효과를 만들어 낸다. 또한 `draw` 메서드는 현재 객체의 x, y, height 프로퍼티를 기반으로 캔버스에 빗방울을 그려내게 된다.
 
 그렇다면 이 두 메서드는 어떤 순서로 호출되어야 할까?\\
-결과적으로 말하자면 `update()`이 `draw()`보다 먼저 호출되어야 한다. 매 프레임마다 실행되는 `loop` 함수 안에서 `update()`은 빗방울을 표시할 좌표가 업데이트하고, 그 후 `draw()`을 이용해 그려내야 가장 최신의 상태를 캔버스에 유지할 수 있게 된다.
+결과적으로 말하자면 `update()`가 `draw()`보다 먼저 호출되어야 한다. 매 프레임마다 실행되는 `loop` 함수 안에서 `update()`는 빗방울을 표시할 좌표가 업데이트하고, 그 후 `draw()`을 이용해 그려내야 가장 최신의 상태를 캔버스에 유지할 수 있게 된다.
 
-```js
+{% highlight js %}
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -129,7 +129,7 @@ function loop() {
 
   window.requestAnimationFrame(loop);
 }
-```
+{% endhighlight %}
 
 <br>
 
@@ -151,7 +151,7 @@ function loop() {
 
 해당 내용을 구현하기 위해서는 추가적인 프로퍼티가 몇 개 더 필요하다. 아래와 같이 생성자를 수정해 주었다.
 
-```js
+{% highlight js %}
 function Rain(x, y, l, vy, hit, r, vr, a, va) {
   this.x = x;
   this.y = y;
@@ -163,7 +163,7 @@ function Rain(x, y, l, vy, hit, r, vr, a, va) {
   this.a = a; // 파동을 표시할 투명도
   this.va = va; // 투명도가 증가하는 속도
 }
-```
+{% endhighlight %}
 
 <br>
 
@@ -171,7 +171,7 @@ function Rain(x, y, l, vy, hit, r, vr, a, va) {
 
 이전에는 `draw`와 `update` 메서드만 존재했다. 하지만, 객체 인스턴스를 처음 생성했을 때나 물방울의 프로퍼티 값을 초기화 해줘야 하는 경우가 발생해서 `init` 메서드를 추가로 작성하였다. 이에 해당하는 코드는 다음과 같다.
 
-```js
+{% highlight js %}
 // min 이상 max 미만의 랜덤 정수 값을 반환하는 함수
 function random(min, max) {
   min = Math.ceil(min);
@@ -232,13 +232,13 @@ Rain.prototype = {
     }
   },
 };
-```
+{% endhighlight %}
 
 <br>
 
 마치기 전에, `init` 메서드를 이용한다면 객체 인스턴스 생성 시 인자를 전해주지 않아도 되므로 `setup` 함수를 다음과 같이 수정해 준다. 이로 인해 코드가 한결 간단해졌다.
 
-```js
+{% highlight js %}
 function setup() {
   ...
   for (let i = 0; i < N_RAIN; i++) {
@@ -247,7 +247,7 @@ function setup() {
   }
   ...
 }
-```
+{% endhighlight %}
 
 <br>
 

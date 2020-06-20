@@ -21,7 +21,7 @@ ES6의 표준으로 등장한 제너레이터와 이를 반환하는 제너레�
 
 제너레이터는 제너레이터 함수에 의해 반환되는 객체이다. 가장 먼저 간단한 코드와 함께 각각 어떠한 기능을 하는 지 간략히 알아보자.
 
-```js
+{% highlight js %}
 // 제너레이터 함수
 function* myGen() {
   yield 1;
@@ -32,7 +32,7 @@ function* myGen() {
 // 제너레이터 객체
 const genObj = myGen();
 console.log(myGen.prototype); // Generator {}
-```
+{% endhighlight %}
 
 <br>
 
@@ -56,7 +56,7 @@ _설명을 위해 '함수를 실행한다'라고 표현했지만, 실제로는 �
 하단 부분에서는 genObj라는 이름의 제너레이터 객체를 선언했다. 제너레이터 함수를 호출하기 위해선 이렇게 제너레이터 객체를 먼저 선언해 주어야 한다.\\
 이때 함수에서 `return`값을 내보내거나 콘솔을 찍었다고 해도, 제너레이터 객체 자체는 함수 내부의 코드를 실행하지 않는다.
 
-```js
+{% highlight js %}
 function* testFunc() {
   console.log("hello generator!");
   yield 10;
@@ -65,7 +65,7 @@ function* testFunc() {
 
 const testObj = testFunc(); //중단된 상태, 아직 제너레이터 함수를 실행한 게 아니다!
 console.log(testObj); // {<suspended>}
-```
+{% endhighlight %}
 
 아직 제너레이터 객체를 만든 것에 불과하므로, 본격적으로 함수 실행을 제어하기 위해서는 제너레이터 객체의 메서드를 활용해야 한다.\\
 해당 메서드의 목록은 다음과 같다.
@@ -76,12 +76,12 @@ console.log(testObj); // {<suspended>}
 
 이 메서드 중 하나를 예로 들어보자. 아까 선언한 genObj라는 제너레이터 객체에서 `next` 메서드를 3번 호출하게 되면 예상했던대로 1, 2, 3이라는 단일 값들을 차례로 받아볼 수 있어야 한다. 이 때의 결과는 다음과 같다.
 
-```js
+{% highlight js %}
 console.log(genObj.next()); // { value: 1, done: false }
 console.log(genObj.next()); // { value: 2, done: false }
 console.log(genObj.next()); // { value: 3, done: false }
 console.log(genObj.next()); // { value: undefined, done: true }
-```
+{% endhighlight %}
 
 제너레이터 객체의 메서드 호출로 얻어지는 반환 값은 공통적으로 `value`, `done` 두 프로퍼티를 갖는 객체이다. `{ value: VALUE, done: true|false }` 와 같은 형태로 생긴 이 객체는 **iterator result** 라는 이름으로도 불리운다.\\
 이들 메서드가 호출될 때마다 제너레이터 함수는 객체에 `value` 프로퍼티에 배열 요소에서 차례대로 꺼내진 값과 `done` 프로퍼티에 요소의 열거가 끝났는지의 여부를 저장하여 반환하고, 내부 처리 상태를 해당 `yield` 표현식까지로 일시 정지 시켜 놓는다. 그리고 계속해서 메서드를 통해 제너레이터를 재개시키거나 종료시킬 수 있는 것이다.
@@ -95,7 +95,7 @@ console.log(genObj.next()); // { value: undefined, done: true }
 가능하다. 하지만, `yield`로 반환되는 값처럼 `value`, `done` 두 속성을 가지는 객체가 반환된다.\\
 또한 리턴문에 다다르면 제너레이터의 상태는 자동으로 종료 상태로 변경된다.
 
-```js
+{% highlight js %}
 function* generatorWithReturnStatement() {
   yield 100;
   yield 200;
@@ -108,7 +108,7 @@ console.log(generator.next()); // { value: 100, done: false }
 console.log(generator.next()); // { value: 200, done: false }
 console.log(generator.next()); // { value: 300, done: true }
 console.log(generator.next()); // { value: undefined, done: true }
-```
+{% endhighlight %}
 
 <br>
 
@@ -123,7 +123,7 @@ console.log(generator.next()); // { value: undefined, done: true }
 이러한 사실을 통해 제너레이터 함수에서도 `for...of` 루프를 이용해 간편하게 값을 얻을 수 있게 된다.\\
 아래 예제는 제너레이터 함수를 순회하며 `yield`문을 만날 때마다 값을 반환하도록 한다.
 
-```js
+{% highlight js %}
 function* myGen() {
   yield 1;
   yield 2;
@@ -133,7 +133,7 @@ function* myGen() {
 for (const n of myGen()) {
   console.log(n); // 1 2 3
 }
-```
+{% endhighlight %}
 
 <br>
 
@@ -143,7 +143,7 @@ for (const n of myGen()) {
 예를 들어, 호출할 때 마다 제곱수를 반환하는 함수를 만들고 싶다면 다음과 같이 작성한다.\\
 이를 `next().value`로 호출하게 되면 1, 4, 9, 16, 25...와 같이 증가하는 패턴을 볼 수 있다.
 
-```js
+{% highlight js %}
 function* squaredNumber() {
   let n = 0;
 
@@ -158,12 +158,12 @@ console.log(squaredNumbers.next().value); // 1
 console.log(squaredNumbers.next().value); // 4
 console.log(squaredNumbers.next().value); // 9
 console.log(squaredNumbers.next().value); // 16
-```
+{% endhighlight %}
 
 제너레이터 함수를 다양한 방식으로도 사용해보자. 위 예제는 `while (true)`문에 의해 호출되는 만큼 걊이 무한으로 증가할 것이다.\\
 제너레이터 함수에 인자를 전달하여 반복 횟수를 조절할 수 있다. 아래와 같이 작성하면 반복문이 넘겨진 인자의 수 만큼만 반복이 될 것이다.
 
-```js
+{% highlight js %}
 function* squaredNumber(max) {
   let n = 0;
 
@@ -176,7 +176,7 @@ function* squaredNumber(max) {
 for (const n of sqaredNumber(10)) {
   console.log(n); // 1, 4, 9, 16, 25, 36, 49, 64, 81, 100
 }
-```
+{% endhighlight %}
 
 <br>
 
@@ -185,9 +185,9 @@ for (const n of sqaredNumber(10)) {
 `next()` 메서드에 인수를 전달하면 어떤 일이 발생할 지와 `yield` 키워드에 대해 좀 더 알아보자.\\
 지금까지의 예제에서는 단순히 `yield [표현식]`의 구문으로 사용하였는데, `yield`는 원래 다음과 같은 형태로 사용된다. (대괄호는 생략 가능하다는 의미)
 
-```
+{% highlight js %}
 [returnValue] = yield [expression]
-```
+{% endhighlight %}
 
 이 때, `expression`은 이터레이터 프로토콜을 통해 제너레이터 함수로부터 반환할 값을 정의한다. (생략하면 `undefined`가 반환)\\
 `returnValue`는 `next()` 메서드에 전달되는 값을 검색하여 함수의 실행을 재개한다. 이 값은 선택 사항이다.
@@ -199,9 +199,9 @@ for (const n of sqaredNumber(10)) {
 `next(value)`의 형태는 제너레이터로 값을 전달하겠다는 의미이다. 전달된 값은 `yield [expression]`의 반환값으로서 할당된다. 즉, 제너레이터가 일시적으로 정지되기 직전의 `yield` 표현식의 값으로써 사용된다.\\
 예를 들어 제너레이터 함수에서 아래와 같이 작성했다면, 전달된 값이 variable이라는 변수에 할당된다. 이를 통해 제너레이터의 내부 상태를 외부로부터 변경시킬 수 있게 된다.
 
-```js
+{% highlight js %}
 variable = yield expression
-```
+{% endhighlight %}
 
 `expression`과 별도로, `yield`는 `returnValue`의 값으로써 `next()`에 전달된 값을 할당하게 된다.\\
 하지만 `yield`는 이전 반복에서 실행을 재개할 때에만 전달된 값을 할당한다는 특징이 있다. 따라서 첫 번째 반복에서는 아무리 `next()`에 값을 전달해도 `returnValue`에 아무런 값을 지정하지 않는다.
@@ -212,7 +212,7 @@ variable = yield expression
 
 그럼 이제 실제로 `next()` 메서드를 인수와 함께 입력하여 제너레이터로 이 값을 전달해보자.
 
-```js
+{% highlight js %}
 function* gen() {
   console.log("before a");
   let a = yield 123;
@@ -231,7 +231,7 @@ console.log(g.next(4));
 console.log(g.next());
 // "end of function"
 // { value: undefined, done: true }
-```
+{% endhighlight %}
 
 - 첫 번째 `next()` 호출: `next()` 함수에 아무 값을 전달하지 않았다. 첫 번째 `yield` 문이 있는 곳까지 실행된다. `yield 123`에 의해 123이라는 반환 값을 얻었다.
 - 두 번째 `next(4)` 호출: 인수로 4를 전달하였다. 이 값은 제너레이터 함수의 지역 변수 a로 할당된다. 따라서 다음 `yield`문이 있는 곳까지 코드가 실행되어 `yield a * 2`에 의해 8을 반환받게 된다.

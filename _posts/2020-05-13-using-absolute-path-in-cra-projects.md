@@ -19,7 +19,7 @@ CRA로 구성된 리액트 앱에서 절대 경로로 import하는 방법을 알
 
 먼저, CRA로 구성한 리액트 프로젝트가 존재한다는 가정 하에 작성한다.
 
-`create-react-app@3.3.0`
+- `create-react-app@3.3.0`
 
 <br>
 
@@ -29,25 +29,25 @@ CRA로 구성된 리액트 앱에서 절대 경로로 import하는 방법을 알
 
 _만약 typescript를 사용한다면 `tsconfig.json` 파일이 이에 해당한다._
 
-```bash
+{% highlight bash %}
 my-app
 ├── node_modules/
 ├── public/
 ├── src/
 ├── jsconfig.json # 생성
 └── package.json
-```
+{% endhighlight %}
 
 ### 2. jsconfig 파일 내용 작성
 
-```js
+{% highlight js %}
 {
   "compilerOptions": {
     "baseUrl": "src"
   },
   "include": ["src"]
 }
-```
+{% endhighlight %}
 
 ### 3. 불러오기 단계
 
@@ -55,7 +55,7 @@ my-app
 
 **현재 프로젝트 구조**
 
-```bash
+{% highlight bash %}
 my-app
 ├── ...
 ├── src/
@@ -67,13 +67,13 @@ my-app
 │   ├── sagas/
 │   └── services/
 ├── node_modules/
-```
+{% endhighlight %}
 
 지금부터는 `src/components/Product.js` 파일에서 `src/assets/image.jpg` 파일을 불러올 것이다.
 
 **src/components/Product.js**
 
-```react
+{% highlight js %}
 import React from "react";
 
 const Product = (props) => {
@@ -87,8 +87,7 @@ const Product = (props) => {
 };
 
 export default Product;
-
-```
+{% endhighlight %}
 
 이전 단계에서 설정에 `baseUrl`을 `src/`로 설정했기 때문에, `require('assets/...')`로 간단하게 경로에 접근할 수 있었다.\\
 참고로 리액트에서 로컬 이미지를 불러오기 위해 `require()`를 사용하였다.

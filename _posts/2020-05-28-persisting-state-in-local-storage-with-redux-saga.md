@@ -43,7 +43,7 @@ Redux saga와 함께 애플리케이션의 state를 브라우저 내의 로컬 �
 
 **/actions/index.js**
 
-```js
+{% highlight js %}
 export const GET_ALL_FAVORITES = "GET_ALL_FAVORITES";
 export const RECEIVE_FAVORITES = "RECEIVE_FAVORITES";
 export const ADD_TO_FAVORITES = "ADD_TO_FAVORITES";
@@ -75,11 +75,11 @@ export function removeFromFavorites(productId) {
     productId,
   };
 }
-```
+{% endhighlight %}
 
 **/reducers/favorites.js**
 
-```js
+{% highlight js %}
 const initialState = {
   likedIds: [],
 };
@@ -118,7 +118,7 @@ export default function (state = initialState, action) {
 export function getLikedIds(state) {
   return state.likedIds;
 }
-```
+{% endhighlight %}
 
 <br>
 
@@ -128,7 +128,7 @@ export function getLikedIds(state) {
 
 **/services/index.js**
 
-```js
+{% highlight js %}
 ...
 getAllFavorites() {
   try {
@@ -149,7 +149,7 @@ saveFavorites(state) {
   } catch { }
 }
 ...
-```
+{% endhighlight %}
 
 이렇게 작성한 함수는 브라우저의 로컬 스토리지로부터 각각 "FAVORITE_ITEMS"라는 key에 해당하는 값을 불러오거나 저장하도록 한다.
 
@@ -161,7 +161,7 @@ saveFavorites(state) {
 
 **/sagas/index.js**
 
-```js
+{% highlight js %}
 ...
 export function* getAllFavorites() {
   const products = yield call(api.getAllFavorites);
@@ -189,7 +189,7 @@ export default function* root() {
     ...
   ]);
 }
-```
+{% endhighlight %}
 
 rootSaga는 여러 개의 saga를 `rootSaga`라는 단일 진입점으로 불러와 sagaMiddleware를 실행시키게끔 한다.
 이렇게 `rootSaga`에 추가한 `fork(getAllFavorites)`,`fork(watchSaveFavorites)`라는 코드는 애플리케이션 실행 시에 `all()` 헬퍼 내의 다른 여러 함수와 함께 병렬적으로 실행되어진다.
@@ -216,7 +216,7 @@ redux saga 공식 문서 내에도 이미 Debouncing 기능과 관련된 built-i
 
 **/sagas/index.js**
 
-```js
+{% highlight js %}
 export function* saveFavorites() {
   // delay 헬퍼를 통해 아래의 작업을 실행하기까지 500ms만큼 지연시킨다
   yield delay(500);
@@ -236,7 +236,7 @@ export function* watchSaveFavorites() {
     task = yield fork(saveFavorites);
   }
 }
-```
+{% endhighlight %}
 
 이전에는 "좋아요" 버튼을 누르는 즉각 변경된 state가 로컬 스토리지에 반영이 되었다. 반면 변경된 코드를 실행하면 마지막으로 요청이 일어난 뒤 0.5초가 지난 후에만 상태를 읽어와 로컬 스토리지에 저장할 수 있게 된다.
 
