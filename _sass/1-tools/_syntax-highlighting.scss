@@ -69,3 +69,15 @@
   .vi    { color: #008080 } // Name.Variable.Instance
   .il    { color: #099 } // Literal.Number.Integer.Long
 }
+
+/*
+  Inline Code
+*/
+.language-plaintext {
+  padding: 1px 3px;
+  position: relative;
+  top: -1px;
+  font-size: 0.875em;
+  background-color: #f6f6f6;
+  border-radius: 2px;
+}
